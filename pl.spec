@@ -1,4 +1,4 @@
-%define		xpce_version 6.2.8
+%define		xpce_version 6.2.10
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
@@ -69,6 +69,9 @@ cd src
 %endif
 cd ..
 
+# the packages are written in Prolog itself
+PATH="$(pwd)/src:$PATH"; export PATH
+
 cd packages
 	cd xpce/src
 		%{__aclocal}
@@ -135,12 +138,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n xpce
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/xpce*
-%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin/*/*
-%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib/*/*
+%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin
+%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/appl-help
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bitmaps
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/include
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
-%{_mandir}/man?/xpce*
+#%{_mandir}/man?/xpce*
