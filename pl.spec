@@ -92,26 +92,26 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_prefix}
 
 %{__make} install -C src \
-        prefix=$RPM_BUILD_ROOT%{_prefix} \
-        bindir=$RPM_BUILD_ROOT%{_bindir} \
-        mandir=$RPM_BUILD_ROOT%{_mandir}
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	bindir=$RPM_BUILD_ROOT%{_bindir} \
+	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
 for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} rpm-install -C packages/$i \
-	        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
-	        prefix=$RPM_BUILD_ROOT%{_prefix} \
-	        bindir=$RPM_BUILD_ROOT%{_bindir} \
-	        mandir=$RPM_BUILD_ROOT%{_mandir}/man1
+		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
+		prefix=$RPM_BUILD_ROOT%{_prefix} \
+		bindir=$RPM_BUILD_ROOT%{_bindir} \
+		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
 done
 
 # why are manpages installed twice?
 rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
 
-mv -f $RPM_BUILD_ROOT/%{_libdir}/pl-%{version}/library/MANUAL .
-mv -f $RPM_BUILD_ROOT/%{_mandir}/man3/readline.{3,3pl}
+mv -f $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/library/MANUAL .
+mv -f $RPM_BUILD_ROOT%{_mandir}/man3/readline.{3,3pl}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
