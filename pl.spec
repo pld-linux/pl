@@ -1,7 +1,7 @@
 Summary:	SWI Prolog Language
 Summary(pl):	SWI Prolog
 Name:		pl
-Version:	3.2.6
+Version:	3.2.7
 Release:	1
 Copyright:	SWI Licence
 Group:		Development/Languages
