@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT/usr/lib/pl-%{version}/man
 
 mv $RPM_BUILD_ROOT/%{_libdir}/pl-%{version}/library/MANUAL .
 
+mv $RPM_BUILD_ROOT/%{_mandir}/man3/readline.{3,3pl}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
