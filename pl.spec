@@ -7,7 +7,7 @@ Copyright:	SWI Licence
 Group:		Development/Languages
 Group(pl):	Programowanie/Jêzyki
 Source:		ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/BETA/%name-%version.tar.gz
-BuildRoot:	/tmp/%{name}-%{version}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Edinburgh-style Prolog compiler including modules, autoload, libraries, 
