@@ -32,7 +32,7 @@ Kompilator jêzyka PROLOG.
 cd src
 aclocal
 autoconf
-%configure
+%configure2_13
 %{__make}
 
 %install
