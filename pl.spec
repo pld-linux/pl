@@ -2,7 +2,7 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	5.0.8
-Release:	3
+Release:	4
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin//nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
@@ -81,8 +81,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING MANUAL
-%attr(755,root,root)%{_bindir}/pl
-%attr(755,root,root)%{_bindir}/plld
-%attr(755,root,root)%{_bindir}/plrc
-%{_libdir}/pl-%{version}/
+%attr(755,root,root)%{_bindir}/*
+%attr(755,root,root)%{_libdir}/pl-%{version}/bin
+%{_libdir}/pl-%{version}/boot*
+%{_libdir}/pl-%{version}/lib*
+%{_libdir}/pl-%{version}/include
+%{_libdir}/pl-%{version}/do*
+%{_libdir}/pl-%{version}/runtime
+%{_libdir}/pl-%{version}/swipl
 %{_mandir}/man?/*
