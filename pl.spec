@@ -2,12 +2,10 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	5.0.8
-Release:	1
+Release:	3
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin//nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-#Patch0:		%{name}-DESTDIR.patch
-#Patch1:		%{name}-readline.patch
 Patch0:		%{name}-smp.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -15,6 +13,7 @@ BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
 Url:		http://www.swi-prolog.org/
 Obsoletes:	swi-prolog
+Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -33,7 +32,6 @@ readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 %prep
 %setup -q
 %patch0 -p0
-#%patch1 -p1
 
 %build
 cd src
@@ -41,6 +39,7 @@ aclocal
 %{__autoconf}
 %configure
 %{__make}
+%{__make} check
 cd ..
 
 cd packages 
@@ -81,7 +80,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING MANUAL
 %attr(755,root,root)%{_bindir}/pl
-#%attr(755,root,root)%{_bindir}/pl-bite
 %attr(755,root,root)%{_bindir}/plld
 %attr(755,root,root)%{_bindir}/plrc
 %{_libdir}/pl-%{version}/
