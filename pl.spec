@@ -1,8 +1,8 @@
 Summary:	SWI Prolog Language
-Summary(pl):	SWI Prolog
+Summary(pl):	SWI Jêzyk Prolog
 Name:		pl
 Version:	3.4.2
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Languages
 Group(de):	Entwicklung/Sprachen
@@ -30,6 +30,8 @@ Kompilator jêzyka PROLOG.
 
 %build
 cd src
+aclocal
+autoconf
 %configure
 %{__make}
 
