@@ -120,9 +120,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING MANUAL
 %doc dotfiles/dot*
-%attr(755,root,root)%{_bindir}/pl*
+%attr(755,root,root) %{_bindir}/pl*
 %dir %{_libdir}/pl-%{version}
-%attr(755,root,root)%{_libdir}/pl-%{version}/bin
+%attr(755,root,root) %{_libdir}/pl-%{version}/bin
 %{_libdir}/pl-%{version}/boot*
 %{_libdir}/pl-%{version}/lib*
 %{_libdir}/pl-%{version}/include
@@ -134,9 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n xpce
 %defattr(644,root,root,755)
-%attr(755,root,root)%{_bindir}/xpce*
-%attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin/*/*
-%attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib/*/*
+%attr(755,root,root) %{_bindir}/xpce*
+%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin/*/*
+%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib/*/*
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/appl-help
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bitmaps
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/include
