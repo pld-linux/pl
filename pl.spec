@@ -22,12 +22,12 @@ Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-ISO/Edinburgh-style Prolog compiler including modules, autoload, libraries,
-Garbage-collector, stack-expandor, C/C++-interface, GNU-readline interface,
-very fast compiler.  Including packages clib (Unix process control and
-sockets), cpp (C++ interface), sgml (reading XML/SGML), sgml/RDF (reading RDF
-into triples) and XPCE (Graphics UI toolkit, integrated editor (Emacs-clone)
-and source-level debugger).
+ISO/Edinburgh-style Prolog compiler including modules, autoload,
+libraries, Garbage-collector, stack-expandor, C/C++-interface,
+GNU-readline interface, very fast compiler. Including packages clib
+(Unix process control and sockets), cpp (C++ interface), sgml (reading
+XML/SGML), sgml/RDF (reading RDF into triples) and XPCE (Graphics UI
+toolkit, integrated editor (Emacs-clone) and source-level debugger).
 
 %description -l pl
 Kompilator jêzyka PROLOG w stylu Edinburgh wraz z modu³ami,
@@ -42,16 +42,17 @@ Group:		Development/Languages
 Requires:	%{name} = %{version}
 
 %description -n xpce
-Graphical User Interface (GUI) toolkit for Prolog and other dynamically
-typed languages.  Provides Object Oriented programming to Prolog as well
-as a high-level portable GUI toolkit for (SWI-)Prolog.  Also available for
-Quintus and SICStus Prolog.
+Graphical User Interface (GUI) toolkit for Prolog and other
+dynamically typed languages. Provides Object Oriented programming to
+Prolog as well as a high-level portable GUI toolkit for (SWI-)Prolog.
+Also available for Quintus and SICStus Prolog.
 
 %description -n xpce -l pl
-Zestaw Graficzny Interfejsu U¿ytkownika (GUI) dla Prologa i innych 
-dynamicznie wpisywanych jêzyków. Udostêpnia objektowo zorientowane 
-programowanie dla Prologa jak tak¿e jako wysoko dostêpny przeno¶ny zestaw
-GUI dla (SWI-)Prologa. Dostêpne tak¿e dla Quintus i SICStus Prolog.
+Zestaw Graficzny Interfejsu U¿ytkownika (GUI) dla Prologa i innych
+dynamicznie wpisywanych jêzyków. Udostêpnia objektowo zorientowane
+programowanie dla Prologa jak tak¿e jako wysoko dostêpny przeno¶ny
+zestaw GUI dla (SWI-)Prologa. Dostêpne tak¿e dla Quintus i SICStus
+Prolog.
 
 %prep
 %setup -q
@@ -76,7 +77,7 @@ cd packages
 		%{__make}
 	cd ../..
 
-for i in clib cpp odbc table sgml semweb http sgml/RDF; do 
+for i in clib cpp odbc table sgml semweb http sgml/RDF; do
 	cd $i
 	%{__aclocal}
 	%{__autoconf}
@@ -97,7 +98,7 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
-for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do 
+for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} rpm-install -C packages/$i \
 	        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
@@ -132,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man?/readline*
 
 %files -n xpce
+%defattr(644,root,root,755)
 %attr(755,root,root)%{_bindir}/xpce*
 %attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin/*/*
 %attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib/*/*
