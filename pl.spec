@@ -35,7 +35,7 @@ readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 
 %build
 cd src
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure
 %{__make}
@@ -43,7 +43,7 @@ aclocal
 cd ..
 
 cd packages 
-aclocal
+%{__aclocal}
 %{__autoconf}
 %configure
 %{__make}
