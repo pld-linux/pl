@@ -24,7 +24,7 @@ Kompilator PROLOGu.
 %build
 cd src
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure \
+./configure %{_target} \
 	--prefix=/usr
 make
 
