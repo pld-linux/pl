@@ -6,14 +6,14 @@ Release:	1
 Copyright:	SWI Licence
 Group:		Development/Languages
 Group(pl):	Programowanie/Jêzyki
-Source:		ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/BETA/%name-%version.tar.gz
+Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/BETA/%name-%version.tar.gz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Edinburgh-style Prolog compiler including modules, autoload, libraries, 
-Garbage-collector, stack-expandor, C-interface, GNU-readline and GNU-Emacs 
-interface, very fast compiler, X11 interface using XPCE 
-(info: ftp swi.psy.uva.nl:/pub/xpce)
+Edinburgh-style Prolog compiler including modules, autoload,
+libraries, Garbage-collector, stack-expandor, C-interface,
+GNU-readline and GNU-Emacs interface, very fast compiler, X11
+interface using XPCE (info: ftp swi.psy.uva.nl:/pub/xpce)
 
 %description -l pl 
 Kompilator PROLOGu.
