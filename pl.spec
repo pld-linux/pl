@@ -25,36 +25,26 @@ Kompilator PROLOGu.
 cd src
 CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
 ./configure %{_target_platform} \
-	--prefix=/usr
+	--prefix=%{_prefix}
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-cd src
-make prefix=$RPM_BUILD_ROOT/usr install
-make prefix=$RPM_BUILD_ROOT/usr install-bins
-make prefix=$RPM_BUILD_ROOT/usr install-arch
-make prefix=$RPM_BUILD_ROOT/usr install-libs
+(cd src ;\
+make install install-bins install-arch install-libs \
+	prefix=$RPM_BUILD_ROOT%{_prefix} \
+	man_prefix=$RPM_BUILD_ROOT%{_mandir} )
 
-#install -d $RPM_BUILD_ROOT/usr
-#install -d $RPM_BUILD_ROOT%{_bindir}
-#install -d $RPM_BUILD_ROOT%{_libdir}/pl-%version
-#install -d $RPM_BUILD_ROOT%{_mandir}
+(cd $RPM_BUILD_ROOT%{_bindir} ;\
+rm -f * ;\
+ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/pl pl ;\
+ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/pl-bite pl-bite ;\
+ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plld plld ;\
+ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plrc plrc )
 
-#cd src
-#make prefix=$RPM_BUILD_ROOT/usr install
-cd $RPM_BUILD_ROOT%{_bindir}
-rm -f *
-ln -s %{_libdir}/pl-%version/bin/i686-linux/chpl chpl
-ln -s %{_libdir}/pl-%version/bin/i686-linux/pl pl
-ln -s %{_libdir}/pl-%version/bin/i686-linux/pl-bite pl-bite
-ln -s %{_libdir}/pl-%version/bin/i686-linux/plld plld
-
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
-
-cd $RPM_BUILD_DIR/%name-%version
-gzip -9nf README* LICENSE LSM ChangeLog PORTING
+gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/* \
+	README* LICENSE LSM ChangeLog PORTING
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,8 +53,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README*.gz LICENSE.gz LSM.gz ChangeLog.gz PORTING.gz
 %attr(755,root,root)%{_bindir}/pl
-%attr(755,root,root)%{_bindir}/chpl
-%attr(755,root,root)%{_bindir}/plld
 %attr(755,root,root)%{_bindir}/pl-bite
-%{_libdir}/pl-%version/
+%attr(755,root,root)%{_bindir}/plld
+%attr(755,root,root)%{_bindir}/plrc
+%{_libdir}/pl-%{version}/
 %{_mandir}/man1/*.gz
