@@ -1,0 +1,11 @@
+--- src/Makefile.in~	Tue Apr  9 21:09:31 2002
++++ src/Makefile.in	Sat Sep  7 02:24:05 2002
+@@ -168,7 +168,7 @@
+ rc-lib:
+ 		@(cd rc && $(MAKE) COFLAGS="$(COFLAGS)")
+ 
+-index:
++index:		$(PL) $(STARTUPPATH)
+ 		./$(PL) -x $(STARTUPPATH) \
+ 			-f none -F none \
+ 			-g make_library_index\(\'../library\'\) \
