@@ -3,11 +3,12 @@ Summary(pl):	SWI Prolog
 Name:		pl
 Version:	3.4.0
 Release:	1
-Copyright:	GPL
+License:	GPL
 Group:		Development/Languages
+Group(de):	Entwicklung/Sprachen
 Group(pl):	Programowanie/Jêzyki
 Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/%{name}-%{version}.tar.gz
-Patch0:		pl-DESTDIR.patch
+Patch0:		%{name}-DESTDIR.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -17,7 +18,7 @@ GNU-readline and GNU-Emacs interface, very fast compiler, X11
 interface using XPCE (info: ftp swi.psy.uva.nl:/pub/xpce)
 
 %description -l pl 
-Kompilator PROLOGu.
+Kompilator jêzyka PROLOG.
 
 %prep
 %setup -q
@@ -25,7 +26,6 @@ Kompilator PROLOGu.
 
 %build
 cd src
-LDFLAGS="-s" ; export LDFLAGS
 %configure
 %{__make}
 
