@@ -31,7 +31,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 
 cd src 
-make install install-bins install-arch install-libs \
+%{__make} install install-bins install-arch install-libs \
 	DESTDIR=$RPM_BUILD_ROOT
 cd ..
 
