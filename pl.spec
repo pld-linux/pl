@@ -8,11 +8,11 @@ Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
 # Source0-md5:	85415533219db3d19d373736492de674
 Patch0:		%{name}-smp.patch
+URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
-URL:		http://www.swi-prolog.org/
 Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -52,29 +52,27 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/usr/
-cd src
-make install \
-        prefix=$RPM_BUILD_ROOT/usr \
-        bindir=$RPM_BUILD_ROOT/usr/bin \
-        mandir=$RPM_BUILD_ROOT%{_mandir}
-cd ..
-install -d $RPM_BUILD_ROOT/usr/lib/pl-%{version}/doc/
+install -d $RPM_BUILD_ROOT%{_prefix}
 
-cd packages
-  PATH=$RPM_BUILD_ROOT/usr/bin:$PATH make install \
-        PLBASE=$RPM_BUILD_ROOT/usr/lib/pl-%{version} \
-        prefix=$RPM_BUILD_ROOT/usr \
-        bindir=$RPM_BUILD_ROOT/usr/bin \
+%{__make} install -C src \
+        prefix=$RPM_BUILD_ROOT%{_prefix} \
+        bindir=$RPM_BUILD_ROOT%{_bindir} \
+        mandir=$RPM_BUILD_ROOT%{_mandir}
+
+install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
+
+PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
+%{__make} install -C packages \
+        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
+        prefix=$RPM_BUILD_ROOT%{_prefix} \
+        bindir=$RPM_BUILD_ROOT%{_bindir} \
         mandir=$RPM_BUILD_ROOT%{_mandir}/man1
-cd ..
 
 # why are manpages installed twice?
-rm -rf $RPM_BUILD_ROOT/usr/lib/pl-%{version}/man
+rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
 
-mv $RPM_BUILD_ROOT/%{_libdir}/pl-%{version}/library/MANUAL .
-
-mv $RPM_BUILD_ROOT/%{_mandir}/man3/readline.{3,3pl}
+mv -f $RPM_BUILD_ROOT/%{_libdir}/pl-%{version}/library/MANUAL .
+mv -f $RPM_BUILD_ROOT/%{_mandir}/man3/readline.{3,3pl}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -83,6 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING MANUAL
 %attr(755,root,root)%{_bindir}/*
+%dir %{_libdir}/pl-%{version}
 %attr(755,root,root)%{_libdir}/pl-%{version}/bin
 %{_libdir}/pl-%{version}/boot*
 %{_libdir}/pl-%{version}/lib*
