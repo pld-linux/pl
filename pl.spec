@@ -2,7 +2,7 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	3.4.2
-Release:	3
+Release:	4
 License:	GPL
 Group:		Development/Languages
 Group(de):	Entwicklung/Sprachen
@@ -55,14 +55,16 @@ ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/pl-bite pl-bite ;\
 ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plld plld ;\
 ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plrc plrc )
 
-gzip -9nf README* LSM ChangeLog PORTING
+mv $RPM_BUILD_ROOT/%{_libdir}/pl-%{version}/library/MANUAL .
+
+gzip -9nf README* LSM ChangeLog PORTING MANUAL
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README*.gz LSM.gz ChangeLog.gz PORTING.gz
+%doc README*.gz LSM.gz ChangeLog.gz PORTING.gz MANUAL.gz
 %attr(755,root,root)%{_bindir}/pl
 %attr(755,root,root)%{_bindir}/pl-bite
 %attr(755,root,root)%{_bindir}/plld
