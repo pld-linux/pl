@@ -1,13 +1,13 @@
-%define		xpce_version 6.2.6
+%define		xpce_version 6.2.8
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
-Version:	5.2.6
-Release:	2
+Version:	5.2.8
+Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	a2bf7e48979758bdba488f1680a3a8d8
+# Source0-md5:	a7709a102778c24216b6fafb9724e019
 Patch0:		%{name}-smp.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
