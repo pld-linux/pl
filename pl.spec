@@ -9,6 +9,7 @@ Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
 # Source0-md5:	38122b7f4c3bc3961f7c58ae96b4d811
 Patch0:		%{name}-smp.patch
+Patch1:		%{name}-opt.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -39,7 +40,7 @@ Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
 License:	Distributable, free for demo-, evaluation- and personal use
 Group:		Development/Languages
 URL:		http://www.swi.psy.uva.nl/projects/xpce/
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description -n xpce
 Graphical User Interface (GUI) toolkit for Prolog and other
@@ -57,6 +58,7 @@ Prolog.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p1
 
 %build
 cd src
