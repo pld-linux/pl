@@ -5,8 +5,6 @@ Version:	3.4.2
 Release:	4
 License:	GPL
 Group:		Development/Languages
-Group(de):	Entwicklung/Sprachen
-Group(pl):	Programowanie/Jêzyki
 Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-readline.patch
