@@ -6,7 +6,7 @@ Release:	1
 Copyright:	SWI Licence
 Group:		Development/Languages
 Group(pl):	Programowanie/Jêzyki
-Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/BETA/%name-%version.tar.gz
+Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/%{name}-%{version}.tar.gz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
