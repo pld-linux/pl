@@ -3,7 +3,7 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	5.2.10
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
@@ -60,6 +60,7 @@ Prolog.
 
 %build
 cd src
+	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
 	%{__autoconf}
 	%configure
@@ -74,6 +75,7 @@ PATH="$(pwd)/src:$PATH"; export PATH
 
 cd packages
 	cd xpce/src
+		cp -f /usr/share/automake/config.sub .
 		%{__aclocal}
 		%{__autoconf}
 		%configure
@@ -82,6 +84,7 @@ cd packages
 
 for i in clib cpp odbc table sgml semweb http sgml/RDF; do
 	cd $i
+	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
 	%{__autoconf}
 	%configure
@@ -95,6 +98,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_prefix}
 
 %{__make} install -C src \
+	PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
 	prefix=$RPM_BUILD_ROOT%{_prefix} \
 	bindir=$RPM_BUILD_ROOT%{_bindir} \
 	mandir=$RPM_BUILD_ROOT%{_mandir}
