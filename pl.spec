@@ -5,7 +5,7 @@ Version:	5.0.8
 Release:	4
 License:	GPL
 Group:		Development/Languages
-Source0:	http://www.swi.psy.uva.nl/cgi-bin//nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
+Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
 # Source0-md5:	85415533219db3d19d373736492de674
 Patch0:		%{name}-smp.patch
 BuildRequires:	autoconf
