@@ -12,7 +12,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
-Url:		http://www.swi-prolog.org/
+URL:		http://www.swi-prolog.org/
 Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -36,18 +36,18 @@ readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 
 %build
 cd src
-%{__aclocal}
-%{__autoconf}
-%configure
-%{__make}
-%{__make} check
+	%{__aclocal}
+	%{__autoconf}
+	%configure
+	%{__make}
+	%{__make} check
 cd ..
 
 cd packages 
-%{__aclocal}
-%{__autoconf}
-%configure
-%{__make}
+	%{__aclocal}
+	%{__autoconf}
+	%configure
+	%{__make}
 cd ..
 
 %install
