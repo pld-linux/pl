@@ -2,7 +2,7 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	5.2.6
-Release:	1
+Release:	1.1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
@@ -13,6 +13,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
+BuildRequires:	unixODBC-devel
 Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -44,10 +45,21 @@ cd src
 cd ..
 
 cd packages
+	cd xpce/src
+		%{__aclocal}
+		%{__autoconf}
+		%configure
+		%{__make}
+	cd ../..
+
+for i in clib cpp odbc table sgml semweb http sgml/RDF; do 
+	cd $i
 	%{__aclocal}
 	%{__autoconf}
 	%configure
 	%{__make}
+	cd ..
+done
 cd ..
 
 %install
@@ -61,12 +73,14 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
-PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
-%{__make} install -C packages \
-        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
-        prefix=$RPM_BUILD_ROOT%{_prefix} \
-        bindir=$RPM_BUILD_ROOT%{_bindir} \
-        mandir=$RPM_BUILD_ROOT%{_mandir}/man1
+for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do 
+	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
+	%{__make} install -C packages/$i \
+	        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
+	        prefix=$RPM_BUILD_ROOT%{_prefix} \
+	        bindir=$RPM_BUILD_ROOT%{_bindir} \
+	        mandir=$RPM_BUILD_ROOT%{_mandir}/man1
+done
 
 # why are manpages installed twice?
 rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
@@ -81,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING MANUAL
 %doc dotfiles/dot*
-%attr(755,root,root)%{_bindir}/*
+%attr(755,root,root)%{_bindir}/pl*
 %dir %{_libdir}/pl-%{version}
 %attr(755,root,root)%{_libdir}/pl-%{version}/bin
 %{_libdir}/pl-%{version}/boot*
