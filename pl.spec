@@ -74,22 +74,15 @@ cd ..
 PATH="$(pwd)/src:$PATH"; export PATH
 
 cd packages
-	cd xpce/src
-		cp -f /usr/share/automake/config.sub .
-		%{__aclocal}
-		%{__autoconf}
-		%configure
-		%{__make}
-	cd ../..
-
-for i in clib cpp odbc table sgml semweb http sgml/RDF; do
+wd=`pwd`
+for i in xpce/src clib cpp odbc table sgml semweb http sgml/RDF; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
 	%{__autoconf}
 	%configure
 	%{__make}
-	cd ..
+	cd $wd
 done
 cd ..
 
@@ -115,9 +108,9 @@ for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
 done
 
 # why are manpages installed twice?
-rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
+#rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
 
-mv -f $RPM_BUILD_ROOT%{_mandir}/man3/readline.{3,3pl}
+#mv -f $RPM_BUILD_ROOT%{_mandir}/man3/readline.{3,3pl}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -136,7 +129,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/runtime
 %{_libdir}/pl-%{version}/swipl
 %{_mandir}/man?/pl*
-%{_mandir}/man?/readline*
+#%{_mandir}/man?/readline*
 
 %files -n xpce
 %defattr(644,root,root,755)
