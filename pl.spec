@@ -126,7 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/do*
 %{_libdir}/pl-%{version}/runtime
 %{_libdir}/pl-%{version}/swipl
-%{_mandir}/man?/*
+%{_mandir}/man?/pl*
+%{_mandir}/man?/readline*
 
 %files -n xpce
 %attr(755,root,root)%{_bindir}/xpce*
@@ -138,3 +139,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
+%{_mandir}/man?/xpce*
