@@ -1,4 +1,4 @@
-%define		xpce_version 6.2.10
+%define		xpce_version 6.2.13
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
