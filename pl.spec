@@ -36,9 +36,9 @@ readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 
 %package -n xpce
 Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
-License:	Distributable, free for demo-, evaluation- and personal use.
-Url:		http://www.swi.psy.uva.nl/projects/xpce/
+License:	Distributable, free for demo-, evaluation- and personal use
 Group:		Development/Languages
+URL:		http://www.swi.psy.uva.nl/projects/xpce/
 Requires:	%{name} = %{version}
 
 %description -n xpce
