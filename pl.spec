@@ -49,7 +49,7 @@ Also available for Quintus and SICStus Prolog.
 
 %description -n xpce -l pl
 Zestaw Graficzny Interfejsu U¿ytkownika (GUI) dla Prologa i innych
-dynamicznie wpisywanych jêzyków. Udostêpnia objektowo zorientowane
+dynamicznie wpisywanych jêzyków. Udostêpnia obiektowo zorientowane
 programowanie dla Prologa jak tak¿e jako wysoko dostêpny przeno¶ny
 zestaw GUI dla (SWI-)Prologa. Dostêpne tak¿e dla Quintus i SICStus
 Prolog.
