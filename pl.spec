@@ -2,12 +2,12 @@
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
-Version:	5.2.10
-Release:	2
+Version:	5.2.13
+Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	f266914dee37e564d8665117b84f64e7
+# Source0-md5:	38122b7f4c3bc3961f7c58ae96b4d811
 Patch0:		%{name}-smp.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
@@ -117,7 +117,6 @@ done
 # why are manpages installed twice?
 rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
 
-mv -f $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/library/MANUAL .
 mv -f $RPM_BUILD_ROOT%{_mandir}/man3/readline.{3,3pl}
 
 %clean
@@ -125,7 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README* LSM ChangeLog PORTING MANUAL
+%doc README* LSM ChangeLog PORTING
 %doc dotfiles/dot*
 %attr(755,root,root) %{_bindir}/pl*
 %dir %{_libdir}/pl-%{version}
