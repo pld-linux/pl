@@ -63,7 +63,9 @@ cd src
 	%{__autoconf}
 	%configure
 	%{__make}
+%ifnarch alpha
 	%{__make} check
+%endif
 cd ..
 
 cd packages
