@@ -1,3 +1,4 @@
+%define		xpce_version 6.2.6
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
@@ -9,8 +10,10 @@ Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{ver
 # Source0-md5:	a2bf7e48979758bdba488f1680a3a8d8
 Patch0:		%{name}-smp.patch
 URL:		http://www.swi-prolog.org/
+BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	unixODBC-devel
@@ -30,6 +33,25 @@ and source-level debugger).
 Kompilator jêzyka PROLOG w stylu Edinburgh wraz z modu³ami,
 bibliotekami, garbage collectorrem, interfejsem C, interfejsami do GNU
 readline, GNU Emacsa i X11 przy u¿yciu XPCE.
+
+%package -n xpce
+Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
+License:	Distributable, free for demo-, evaluation- and personal use.
+Url:		http://www.swi.psy.uva.nl/projects/xpce/
+Group:		Development/Languages
+Requires:	%{name} = %{version}
+
+%description -n xpce
+Graphical User Interface (GUI) toolkit for Prolog and other dynamically
+typed languages.  Provides Object Oriented programming to Prolog as well
+as a high-level portable GUI toolkit for (SWI-)Prolog.  Also available for
+Quintus and SICStus Prolog.
+
+%description -n xpce -l pl
+Zestaw Graficzny Interfejsu U¿ytkownika (GUI) dla Prologa i innych 
+dynamicznie wpisywanych jêzyków. Udostêpnia objektowo zorientowane 
+programowanie dla Prologa jak tak¿e jako wysoko dostêpny przeno¶ny zestaw
+GUI dla (SWI-)Prologa. Dostêpne tak¿e dla Quintus i SICStus Prolog.
 
 %prep
 %setup -q
@@ -75,7 +97,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
 for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do 
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
-	%{__make} install -C packages/$i \
+	%{__make} rpm-install -C packages/$i \
 	        PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
 	        prefix=$RPM_BUILD_ROOT%{_prefix} \
 	        bindir=$RPM_BUILD_ROOT%{_bindir} \
@@ -105,3 +127,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/runtime
 %{_libdir}/pl-%{version}/swipl
 %{_mandir}/man?/*
+
+%files -n xpce
+%attr(755,root,root)%{_bindir}/xpce*
+%attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin/*/*
+%attr(755,root,root)%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib/*/*
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/appl-help
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bitmaps
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/include
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
+%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
