@@ -16,7 +16,8 @@ BuildRequires:	automake
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
-BuildRequires:	unixODBC-devel
+%{?with_odbc:BuildRequires:unixODBC-devel}
+%{?with_odbc:BuildRequires:jdk}
 BuildRequires:	gmp-devel
 Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
@@ -74,7 +75,15 @@ PATH="$(pwd)/src:$PATH"; export PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src chr clib cpp db mp odbc table sgml semweb http sgml/RDF; do
+pkgs="xpce/src chr clpr ssl clib cpp db mp table sgml semweb http sgml/RDF"
+%if %{with odbc}
+pkgs="$pkgs odbc"
+%endif
+%if %{with java}
+pkgs="jpl"
+%endif
+
+for i in $pkgs ; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
@@ -96,8 +105,15 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 	mandir=$RPM_BUILD_ROOT%{_mandir}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
+pkgs="xpce/src chr clib cpp clpr ssl table sgml semweb http sgml/RDF"
+%if %{with odbc}
+pkgs="$pkgs odbc"
+%endif
+%if %{with java}
+pkgs="jpl"
+%endif
 
-for i in xpce/src chr clib cpp odbc table sgml semweb http sgml/RDF; do
+for i in $pkgs ; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} rpm-install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
