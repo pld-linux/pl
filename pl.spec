@@ -1,13 +1,13 @@
-Summary:   SWI Prolog Language
-Summary(pl): SWI Prolog
-Name:      pl
-Version:   3.2.6
-Release:   1
-Copyright: SWI Licence
-Group:     Development/Languages
-#Group(pl):
-Source:	   ftp://sunsite.unc.edu/pub/Linux/devel/prolog/%name-%version.tar.gz
-BuildRoot: /tmp/%{name}-%{version}-root
+Summary:	SWI Prolog Language
+Summary(pl):	SWI Prolog
+Name:		pl
+Version:	3.2.6
+Release:	1
+Copyright:	SWI Licence
+Group:		Development/Languages
+Group(pl):	Programowanie/Jêzyki
+Source:		ftp://sunsite.unc.edu/pub/Linux/devel/prolog/%name-%version.tar.gz
+BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
 Edinburgh-style Prolog compiler including modules, autoload, libraries, 
@@ -23,10 +23,14 @@ Kompilator PROLOGu.
 
 %build
 cd src
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
+./configure \
+	--prefix=/usr
 make
 
 %install
+rm -rf $RPM_BUILD_ROOT
+
 cd src
 make prefix=$RPM_BUILD_ROOT/usr install
 make prefix=$RPM_BUILD_ROOT/usr install-bins
@@ -47,20 +51,21 @@ ln -s /usr/lib/pl-%version/bin/i686-linux/pl pl
 ln -s /usr/lib/pl-%version/bin/i686-linux/pl-bite pl-bite
 ln -s /usr/lib/pl-%version/bin/i686-linux/plld plld
 
-gzip -9 $RPM_BUILD_ROOT/usr/man/man1/*
+gzip -9nf $RPM_BUILD_ROOT/usr/man/man1/*
 
 cd $RPM_BUILD_DIR/%name-%version
-gzip -9 README* LICENSE LSM ChangeLog PORTING
+gzip -9nf README* LICENSE LSM ChangeLog PORTING
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%defattr(644,root,root,755)
 %doc README*.gz LICENSE.gz LSM.gz ChangeLog.gz PORTING.gz
-%attr(755, root, root)/usr/bin/pl
-%attr(755, root, root)/usr/bin/chpl
-%attr(755, root, root)/usr/bin/plld
-%attr(755, root, root)/usr/bin/pl-bite
+%attr(755,root,root)/usr/bin/pl
+%attr(755,root,root)/usr/bin/chpl
+%attr(755,root,root)/usr/bin/plld
+%attr(755,root,root)/usr/bin/pl-bite
 /usr/lib/pl-%version/
 /usr/man/man1/*.gz
 
