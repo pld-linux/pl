@@ -3,7 +3,7 @@ Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	5.2.13
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Languages
 Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
@@ -67,9 +67,7 @@ cd src
 	%{__autoconf}
 	%configure
 	%{__make}
-%ifnarch alpha
 	%{__make} check
-%endif
 cd ..
 
 # the packages are written in Prolog itself
