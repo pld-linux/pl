@@ -1,15 +1,14 @@
-%define		xpce_version 6.2.13
+%define		xpce_version 6.5.8
 Summary:	SWI Prolog Language
 Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
-Version:	5.2.13
-Release:	2
+Version:	5.5.8
+Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	38122b7f4c3bc3961f7c58ae96b4d811
-Patch0:		%{name}-smp.patch
-Patch1:		%{name}-opt.patch
+Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/BETA/%{name}-%{version}.tar.gz
+# Source0-md5:	5363848864a584040b0d2a9c9fdb1b92
+Patch0:		%{name}-opt.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -18,6 +17,7 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	unixODBC-devel
+BuildRequires:	gmp-devel
 Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -57,8 +57,7 @@ Prolog.
 
 %prep
 %setup -q
-%patch0 -p0
-%patch1 -p1
+%patch0 -p1
 
 %build
 cd src
@@ -75,7 +74,7 @@ PATH="$(pwd)/src:$PATH"; export PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src clib cpp odbc table sgml semweb http sgml/RDF; do
+for i in xpce/src chr clib cpp db mp odbc table sgml semweb http sgml/RDF; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
@@ -98,7 +97,7 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
-for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
+for i in xpce/src chr clib cpp odbc table sgml semweb http sgml/RDF; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} rpm-install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
@@ -107,6 +106,14 @@ for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
 		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
 done
 
+for i in db mp; do
+	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
+	%{__make} install -C packages/$i \
+		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
+		prefix=$RPM_BUILD_ROOT%{_prefix} \
+		bindir=$RPM_BUILD_ROOT%{_bindir} \
+		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
+done
 # why are manpages installed twice?
 #rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
 
@@ -126,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/lib*
 %{_libdir}/pl-%{version}/include
 %{_libdir}/pl-%{version}/do*
-%{_libdir}/pl-%{version}/runtime
+#{_libdir}/pl-%{version}/runtime
 %{_libdir}/pl-%{version}/swipl
 %{_mandir}/man?/pl*
 #%{_mandir}/man?/readline*
