@@ -68,18 +68,3 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root)%{_bindir}/pl-bite
 %{_libdir}/pl-%version/
 %{_mandir}/man1/*.gz
-
-%changelog
-* Tue May  4 1999 Wojciech "Sas" Ciêciwa <cieciwa@alpha.zarz.agh.edu.pl>
-  [3.2.6-1]
-- upgradeing to version 3.2.6,
-- added gziped man pages and information.
-
-* Tue Sep 22 1998 Wojciech "Sas" Ciêciwa <cieciwa@alpha.zarz.agh.edu.pl>
-- upgradeing from 2.9.10 to 3.1.0.
-
-* Mon Sep 21 1998 Wojciech "Sas" Ciêciwa <cieciwa@alpha.zarz.agh.edu.pl>
-- adding %defattr in %files.
-
-* Thu Aug 13 1998 Wojciech "Sas" Ciêciwa <cieciwa@alpha.zarz.agh.edu.pl>
-- Build RPM.
