@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README*.gz LICENSE.gz LSM.gz ChangeLog.gz PORTING.gz
+%doc README*.gz LSM.gz ChangeLog.gz PORTING.gz
 %attr(755,root,root)%{_bindir}/pl
 %attr(755,root,root)%{_bindir}/pl-bite
 %attr(755,root,root)%{_bindir}/plld
