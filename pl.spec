@@ -38,13 +38,13 @@ make prefix=$RPM_BUILD_ROOT/usr install-arch
 make prefix=$RPM_BUILD_ROOT/usr install-libs
 
 #install -d $RPM_BUILD_ROOT/usr
-#install -d $RPM_BUILD_ROOT/usr/bin
+#install -d $RPM_BUILD_ROOT%{_bindir}
 #install -d $RPM_BUILD_ROOT%{_libdir}/pl-%version
 #install -d $RPM_BUILD_ROOT%{_mandir}
 
 #cd src
 #make prefix=$RPM_BUILD_ROOT/usr install
-cd $RPM_BUILD_ROOT/usr/bin
+cd $RPM_BUILD_ROOT%{_bindir}
 rm -f *
 ln -s %{_libdir}/pl-%version/bin/i686-linux/chpl chpl
 ln -s %{_libdir}/pl-%version/bin/i686-linux/pl pl
@@ -62,10 +62,10 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README*.gz LICENSE.gz LSM.gz ChangeLog.gz PORTING.gz
-%attr(755,root,root)/usr/bin/pl
-%attr(755,root,root)/usr/bin/chpl
-%attr(755,root,root)/usr/bin/plld
-%attr(755,root,root)/usr/bin/pl-bite
+%attr(755,root,root)%{_bindir}/pl
+%attr(755,root,root)%{_bindir}/chpl
+%attr(755,root,root)%{_bindir}/plld
+%attr(755,root,root)%{_bindir}/pl-bite
 %{_libdir}/pl-%version/
 %{_mandir}/man1/*.gz
 
