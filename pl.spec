@@ -1,7 +1,7 @@
 Summary:	SWI Prolog Language
 Summary(pl):	SWI Prolog
 Name:		pl
-Version:	3.4.0
+Version:	3.4.2
 Release:	1
 License:	GPL
 Group:		Development/Languages
@@ -9,6 +9,8 @@ Group(de):	Entwicklung/Sprachen
 Group(pl):	Programowanie/Jêzyki
 Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/%{name}-%{version}.tar.gz
 Patch0:		%{name}-DESTDIR.patch
+BuildRequires:	ncurses-devel
+BuildRequires:	readline-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
