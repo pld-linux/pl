@@ -39,17 +39,17 @@ make prefix=$RPM_BUILD_ROOT/usr install-libs
 
 #install -d $RPM_BUILD_ROOT/usr
 #install -d $RPM_BUILD_ROOT/usr/bin
-#install -d $RPM_BUILD_ROOT/usr/lib/pl-%version
+#install -d $RPM_BUILD_ROOT%{_libdir}/pl-%version
 #install -d $RPM_BUILD_ROOT%{_mandir}
 
 #cd src
 #make prefix=$RPM_BUILD_ROOT/usr install
 cd $RPM_BUILD_ROOT/usr/bin
 rm -f *
-ln -s /usr/lib/pl-%version/bin/i686-linux/chpl chpl
-ln -s /usr/lib/pl-%version/bin/i686-linux/pl pl
-ln -s /usr/lib/pl-%version/bin/i686-linux/pl-bite pl-bite
-ln -s /usr/lib/pl-%version/bin/i686-linux/plld plld
+ln -s %{_libdir}/pl-%version/bin/i686-linux/chpl chpl
+ln -s %{_libdir}/pl-%version/bin/i686-linux/pl pl
+ln -s %{_libdir}/pl-%version/bin/i686-linux/pl-bite pl-bite
+ln -s %{_libdir}/pl-%version/bin/i686-linux/plld plld
 
 gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/*
 
@@ -66,7 +66,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root)/usr/bin/chpl
 %attr(755,root,root)/usr/bin/plld
 %attr(755,root,root)/usr/bin/pl-bite
-/usr/lib/pl-%version/
+%{_libdir}/pl-%version/
 %{_mandir}/man1/*.gz
 
 %changelog
