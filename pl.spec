@@ -43,7 +43,7 @@ cd src
 	%{__make} check
 cd ..
 
-cd packages 
+cd packages
 	%{__aclocal}
 	%{__autoconf}
 	%configure
