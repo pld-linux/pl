@@ -1,12 +1,12 @@
 Summary:	SWI Prolog Language
 Summary(pl):	SWI Prolog
 Name:		pl
-Version:	3.2.7
+Version:	3.3.0
 Release:	1
 Copyright:	SWI Licence
 Group:		Development/Languages
 Group(pl):	Programowanie/Jêzyki
-Source:		ftp://sunsite.unc.edu/pub/Linux/devel/prolog/%name-%version.tar.gz
+Source:		ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/BETA/%name-%version.tar.gz
 BuildRoot:	/tmp/%{name}-%{version}-root
 
 %description
@@ -23,18 +23,17 @@ Kompilator PROLOGu.
 
 %build
 cd src
-CFLAGS="$RPM_OPT_FLAGS" LDFLAGS="-s" \
-./configure %{_target_platform} \
-	--prefix=%{_prefix}
+LDFLAGS="-s" ; export LDFLAGS
+%configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-(cd src ;\
+cd src 
 make install install-bins install-arch install-libs \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	man_prefix=$RPM_BUILD_ROOT%{_mandir} )
+	DESTDIR=$RPM_BUILD_ROOT
+cd ..
 
 (cd $RPM_BUILD_ROOT%{_bindir} ;\
 rm -f * ;\
@@ -57,4 +56,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root)%{_bindir}/plld
 %attr(755,root,root)%{_bindir}/plrc
 %{_libdir}/pl-%{version}/
-%{_mandir}/man1/*.gz
+%{_mandir}/man1/*
