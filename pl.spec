@@ -20,10 +20,10 @@ libraries, Garbage-collector, stack-expandor, C-interface,
 GNU-readline and GNU-Emacs interface, very fast compiler, X11
 interface using XPCE (info: ftp swi.psy.uva.nl:/pub/xpce)
 
-%description -l pl 
+%description -l pl
 Kompilator jêzyka PROLOG w stylu Edinburgh wraz z modu³ami,
-bibliotekami, garbage collectorrem, interfejsem C, interfejsami
-do GNU readline, GNU Emacsa i X11 przy u¿yciu XPCE.
+bibliotekami, garbage collectorrem, interfejsem C, interfejsami do GNU
+readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 
 %prep
 %setup -q
@@ -41,7 +41,7 @@ autoconf
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
-cd src 
+cd src
 %{__make} install install-bins install-arch install-libs \
 	DESTDIR=$RPM_BUILD_ROOT
 cd ..
