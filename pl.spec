@@ -3,10 +3,11 @@ Summary(pl):	SWI Prolog
 Name:		pl
 Version:	3.4.0
 Release:	1
-Copyright:	SWI Licence
+Copyright:	GPL
 Group:		Development/Languages
 Group(pl):	Programowanie/Jêzyki
 Source0:	ftp://metalab.unc.edu/pub/Linux/devel/lang/prolog/swi/%{name}-%{version}.tar.gz
+Patch0:		pl-DESTDIR.patch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -20,6 +21,7 @@ Kompilator PROLOGu.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 cd src
@@ -29,6 +31,7 @@ LDFLAGS="-s" ; export LDFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 cd src 
 %{__make} install install-bins install-arch install-libs \
@@ -42,8 +45,7 @@ ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/pl-bite pl-bite ;\
 ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plld plld ;\
 ln -s %{_libdir}/pl-%{version}/bin/%{_target_cpu}-linux/plrc plrc )
 
-gzip -9nf $RPM_BUILD_ROOT%{_mandir}/man1/* \
-	README* LICENSE LSM ChangeLog PORTING
+gzip -9nf README* LSM ChangeLog PORTING
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -56,4 +58,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root)%{_bindir}/plld
 %attr(755,root,root)%{_bindir}/plrc
 %{_libdir}/pl-%{version}/
-%{_mandir}/man1/*
+%{_mandir}/man1/*.1*
