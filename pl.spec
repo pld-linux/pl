@@ -1,5 +1,5 @@
 Summary:	SWI Prolog Language
-Summary(pl):	SWI Jêzyk Prolog
+Summary(pl):	Jêzyk SWI Prolog
 Name:		pl
 Version:	3.4.2
 Release:	3
@@ -12,6 +12,8 @@ Patch0:		%{name}-DESTDIR.patch
 Patch1:		%{name}-readline.patch
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -21,7 +23,9 @@ GNU-readline and GNU-Emacs interface, very fast compiler, X11
 interface using XPCE (info: ftp swi.psy.uva.nl:/pub/xpce)
 
 %description -l pl 
-Kompilator jêzyka PROLOG.
+Kompilator jêzyka PROLOG w stylu Edinburgh wraz z modu³ami,
+bibliotekami, garbage collectorrem, interfejsem C, interfejsami
+do GNU readline, GNU Emacsa i X11 przy u¿yciu XPCE.
 
 %prep
 %setup -q
