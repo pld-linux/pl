@@ -1,0 +1,40 @@
+--- pl-5.2.13/src/configure.in.orig	2004-01-21 10:08:00.000000000 +0000
++++ pl-5.2.13/src/configure.in	2004-05-20 17:45:04.616956109 +0000
+@@ -157,8 +157,7 @@
+ AC_HEADER_STDC
+ AC_SYS_LARGEFILE
+ if test "$GCC" = "yes"; then
+-    COFLAGS="-O3 -fno-strict-aliasing"
+-    LDFLAGS="$LDFLAGS -O3"
++    COFLAGS="$CFLAGS -fno-strict-aliasing"
+     if test "$ac_cv_header_stdc" = "yes" ; then
+         CWFLAGS=-Wall
+     else
+@@ -166,7 +165,7 @@
+     fi
+     CMFLAGS=
+ else
+-    COFLAGS=-O
++    COFLAGS="$CFLAGS"
+     CWFLAGS=
+     CMFLAGS=
+ 
+--- pl-5.2.13/packages/xpce/src/configure.in.orig	2003-10-02 13:03:39.000000000 +0000
++++ pl-5.2.13/packages/xpce/src/configure.in	2004-05-20 18:31:55.489548504 +0000
+@@ -522,14 +522,14 @@
+ AC_ISC_POSIX
+ AC_HEADER_STDC
+ if test ! -z "$GCC"; then
+-    COFLAGS="-O2 -fno-strict-aliasing"
++    COFLAGS="$CFLAGS -fno-strict-aliasing"
+     if test "$ac_cv_header_stdc" = "yes" || test "$syslibh" = "yes"; then
+         CWFLAGS=-Wall
+     else
+ 	CWFLAGS=
+     fi
+ else
+-    COFLAGS=-O
++    COFLAGS="$CFLAGS"
+     CWFLAGS=
+ fi
+ CFLAGS="$CMFLAGS"
