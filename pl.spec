@@ -1,6 +1,6 @@
 %define		xpce_version 6.5.8
 Summary:	SWI Prolog Language
-Summary(pl):	Jêzyk SWI Prolog
+Summary(pl.UTF-8):   JÄ™zyk SWI Prolog
 Name:		pl
 Version:	5.5.8
 Release:	1
@@ -31,10 +31,10 @@ GNU-readline interface, very fast compiler. Including packages clib
 XML/SGML), sgml/RDF (reading RDF into triples) and XPCE (Graphics UI
 toolkit, integrated editor (Emacs-clone) and source-level debugger).
 
-%description -l pl
-Kompilator jêzyka PROLOG w stylu Edinburgh wraz z modu³ami,
+%description -l pl.UTF-8
+Kompilator jÄ™zyka PROLOG w stylu Edinburgh wraz z moduÅ‚ami,
 bibliotekami, garbage collectorrem, interfejsem C, interfejsami do GNU
-readline, GNU Emacsa i X11 przy u¿yciu XPCE.
+readline, GNU Emacsa i X11 przy uÅ¼yciu XPCE.
 
 %package -n xpce
 Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
@@ -49,11 +49,11 @@ dynamically typed languages. Provides Object Oriented programming to
 Prolog as well as a high-level portable GUI toolkit for (SWI-)Prolog.
 Also available for Quintus and SICStus Prolog.
 
-%description -n xpce -l pl
-Zestaw Graficzny Interfejsu U¿ytkownika (GUI) dla Prologa i innych
-dynamicznie wpisywanych jêzyków. Udostêpnia obiektowo zorientowane
-programowanie dla Prologa jak tak¿e jako wysoko dostêpny przeno¶ny
-zestaw GUI dla (SWI-)Prologa. Dostêpne tak¿e dla Quintus i SICStus
+%description -n xpce -l pl.UTF-8
+Zestaw Graficzny Interfejsu UÅ¼ytkownika (GUI) dla Prologa i innych
+dynamicznie wpisywanych jÄ™zykÃ³w. UdostÄ™pnia obiektowo zorientowane
+programowanie dla Prologa jak takÅ¼e jako wysoko dostÄ™pny przenoÅ›ny
+zestaw GUI dla (SWI-)Prologa. DostÄ™pne takÅ¼e dla Quintus i SICStus
 Prolog.
 
 %prep
