@@ -1,6 +1,6 @@
 %define		xpce_version 6.2.13
 Summary:	SWI Prolog Language
-Summary(pl.UTF-8):   Język SWI Prolog
+Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
 Version:	5.2.13
 Release:	3
