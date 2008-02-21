@@ -1,25 +1,29 @@
-%define		xpce_version 6.2.13
+#
+# TODO
+# - package jpl
+# - maybe separate packages to miscelious packages?
+%define		xpce_version 6.6.50
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	5.2.13
-Release:	3
+Version:	5.6.50
+Release:	1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://www.swi.psy.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	38122b7f4c3bc3961f7c58ae96b4d811
-Patch0:		%{name}-smp.patch
-Patch1:		%{name}-opt.patch
+Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
+# Source0-md5:	55dddf131ef9184f4272e9357c264d43
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	fontconfig-devel
+BuildRequires:	freetype-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	unixODBC-devel
-Obsoletes:	swi-prolog
 Obsoletes:	swi-pl
+Obsoletes:	swi-prolog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -57,8 +61,7 @@ Prolog.
 
 %prep
 %setup -q
-%patch0 -p0
-%patch1 -p1
+sed -e "s@mkdir@mkdir -p@g" -i packages/xpce/src/Makefile.in
 
 %build
 cd src
@@ -75,7 +78,7 @@ PATH="$(pwd)/src:$PATH"; export PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src clib cpp odbc table sgml semweb http sgml/RDF; do
+for i in xpce/src clib cpp odbc table sgml semweb http sgml/RDF chr clpqr nlp ssl pldoc plunit zlib; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
@@ -98,7 +101,7 @@ install -d $RPM_BUILD_ROOT%{_prefix}
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
-for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src; do
+for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src chr clpqr nlp ssl pldoc plunit zlib; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} rpm-install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
@@ -126,8 +129,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/lib*
 %{_libdir}/pl-%{version}/include
 %{_libdir}/pl-%{version}/do*
-%{_libdir}/pl-%{version}/runtime
 %{_libdir}/pl-%{version}/swipl
+%{_libdir}/pl-%{version}/*.rc
 %{_mandir}/man?/pl*
 #%{_mandir}/man?/readline*
 
