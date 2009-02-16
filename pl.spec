@@ -6,12 +6,12 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	5.6.50
+Version:	5.6.64
 Release:	1
 License:	GPL
 Group:		Development/Languages
 Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	55dddf131ef9184f4272e9357c264d43
+# Source0-md5:	2f06f64007fdac076a277ee4a8c53274
 URL:		http://www.swi-prolog.org/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
