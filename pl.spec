@@ -2,7 +2,7 @@
 # TODO
 # - package jpl
 # - maybe separate packages to miscelious packages?
-%define		xpce_version 6.6.50
+%define		xpce_version 6.6.64
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
@@ -13,7 +13,6 @@ Group:		Development/Languages
 Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
 # Source0-md5:	2f06f64007fdac076a277ee4a8c53274
 URL:		http://www.swi-prolog.org/
-BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	fontconfig-devel
@@ -22,6 +21,21 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.2
 BuildRequires:	unixODBC-devel
+BuildRequires:	gmp-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig
+BuildRequires:	xorg-lib-libICE-devel
+BuildRequires:	xorg-lib-libSM-devel
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXaw-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXft-devel
+BuildRequires:	xorg-lib-libXinerama-devel
+BuildRequires:	xorg-lib-libXmu-devel
+BuildRequires:	xorg-lib-libXpm-devel
+BuildRequires:	xorg-lib-libXrender-devel
+BuildRequires:	xorg-lib-libXt-devel
+BuildRequires:	jdk
 Obsoletes:	swi-pl
 Obsoletes:	swi-prolog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -91,13 +105,9 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_prefix}
 
 %{__make} install -C src \
-	PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
-	prefix=$RPM_BUILD_ROOT%{_prefix} \
-	bindir=$RPM_BUILD_ROOT%{_bindir} \
-	mandir=$RPM_BUILD_ROOT%{_mandir}
+	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
@@ -117,7 +127,6 @@ done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
 %files
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING
@@ -131,6 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/pl-%{version}/do*
 %{_libdir}/pl-%{version}/swipl
 %{_libdir}/pl-%{version}/*.rc
+%{_pkgconfigdir}/pl.pc
 %{_mandir}/man?/pl*
 #%{_mandir}/man?/readline*
 
