@@ -7,7 +7,7 @@ Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
 Version:	5.6.64
-Release:	3
+Release:	4
 License:	GPL
 Group:		Development/Languages
 Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
@@ -106,14 +106,14 @@ cd ..
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%{__make} install -C src \
+%{__make} -j1 install -C src \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
 for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src chr clpqr nlp ssl pldoc plunit zlib; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
-	%{__make} rpm-install -C packages/$i \
+	%{__make} -j1 rpm-install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
 		prefix=$RPM_BUILD_ROOT%{_prefix} \
 		bindir=$RPM_BUILD_ROOT%{_bindir} \
