@@ -1,29 +1,33 @@
 #
 # TODO
-# - package jpl
-# - maybe separate packages to miscelious packages?
+# 	- separate prolog packages to rpm subpackages
+#
 %define		xpce_version 6.6.64
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	5.6.64
-Release:	4
+Version:	5.7.7
+Release:	0.1
 License:	GPL
 Group:		Development/Languages
-Source0:	http://gollem.science.uva.nl/cgi-bin/nph-download/SWI-Prolog/%{name}-%{version}.tar.gz
-# Source0-md5:	2f06f64007fdac076a277ee4a8c53274
+Source0:	http://www.swi-prolog.org/download/devel/src/%{name}-%{version}.tar.gz
+# Source0-md5:	a88409ccbbaccb470a0defb64d8cdfda
+Patch0:		%{name}-clib-configure.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	db-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel
+BuildRequires:	gmp-devel
+BuildRequires:	jdk
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	readline-devel >= 4.2
-BuildRequires:	unixODBC-devel
-BuildRequires:	gmp-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pkgconfig
+BuildRequires:	readline-devel >= 4.2
+BuildRequires:	unixODBC-devel
+BuildRequires:	uriparser-devel
 BuildRequires:	xorg-lib-libICE-devel
 BuildRequires:	xorg-lib-libSM-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -35,7 +39,7 @@ BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXt-devel
-BuildRequires:	jdk
+BuildRequires:	zlib-devel
 Obsoletes:	swi-pl
 Obsoletes:	swi-prolog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -75,28 +79,31 @@ Prolog.
 
 %prep
 %setup -q
-sed -e "s@mkdir@mkdir -p@g" -i packages/xpce/src/Makefile.in
+%patch0 -p1
+#sed -e "s@mkdir@mkdir -p@g" -i packages/xpce/src/Makefile.in
 
 %build
 cd src
-	cp -f /usr/share/automake/config.sub .
-	%{__aclocal}
-	%{__autoconf}
-	%configure
-	%{__make}
-	%{__make} check
+cp -f /usr/share/automake/config.sub .
+%{__aclocal}
+%{__autoconf}
+%configure
+%{__make}
+%{__make} check
 cd ..
 
 # the packages are written in Prolog itself
 PATH="$(pwd)/src:$PATH"; export PATH
+LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src clib cpp odbc table sgml semweb http sgml/RDF chr clpqr nlp ssl pldoc plunit zlib; do
+for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr jpl mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
 	%{__autoconf}
+	%{__autoheader} || :
 	%configure
 	%{__make}
 	cd $wd
@@ -111,9 +118,11 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
-for i in clib cpp odbc table sgml semweb http sgml/RDF xpce/src chr clpqr nlp ssl pldoc plunit zlib; do
+LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/pl-%{version}/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
+
+for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr jpl mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
-	%{__make} -j1 rpm-install -C packages/$i \
+	%{__make} -j1 install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
 		prefix=$RPM_BUILD_ROOT%{_prefix} \
 		bindir=$RPM_BUILD_ROOT%{_bindir} \
