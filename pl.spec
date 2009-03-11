@@ -15,8 +15,8 @@ Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
 Version:	5.7.7
-Release:	0.1
-License:	GPL
+Release:	0.2
+License:	LGPL/GPL
 Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/devel/src/%{name}-%{version}.tar.gz
 # Source0-md5:	a88409ccbbaccb470a0defb64d8cdfda
@@ -65,20 +65,44 @@ Kompilator języka PROLOG w stylu Edinburgh wraz z modułami,
 bibliotekami, garbage collectorrem, interfejsem C, interfejsami do GNU
 readline, GNU Emacsa i X11 przy użyciu XPCE.
 
-%package -n xpce
-Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
-License:	Distributable, free for demo-, evaluation- and personal use
+%package jpl
+Summary:	Dynamic, bidirectional interface between SWI-Prolog and Java
 Group:		Development/Languages
-URL:		http://www.swi.psy.uva.nl/projects/xpce/
 Requires:	%{name} = %{version}-%{release}
 
-%description -n xpce
+%description jpl
+JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0 or
+later and Java 2 runtimes (see JPL 3.x Objectives).  It offers two APIs:
+  * Java API (Java-calls-Prolog): this interface comprises public Java
+    classes which support:
+       + constructing Java representations of Prolog terms and queries
+       + calling queries within SWI-Prolog engines
+       + retrieving (as Java representations of Prolog terms) any bindings
+         created by a call
+  * Prolog API (Prolog-calls-Java): this interface comprises Prolog library
+    predicates which support:
+       + creating instances (objects) of Java classes (built-in and
+         user-defined)
+       + calling methods of Java objects (and static methods of classes),
+         perhaps returning values or object references
+       + getting and setting the values of fields of Java objects and
+         classes
+Calls to the two APIs can be nested, e.g. Java code can call Prolog
+predicates which call Java methods which call Prolog predicates etc.
+
+%package xpce
+Summary:	XPCE - GUI Toolkit for (SWI-)Prolog
+Group:		Development/Languages
+Requires:	%{name} = %{version}-%{release}
+Obsoletes:	xpce
+
+%description xpce
 Graphical User Interface (GUI) toolkit for Prolog and other
 dynamically typed languages. Provides Object Oriented programming to
 Prolog as well as a high-level portable GUI toolkit for (SWI-)Prolog.
 Also available for Quintus and SICStus Prolog.
 
-%description -n xpce -l pl.UTF-8
+%description xpce -l pl.UTF-8
 Zestaw Graficzny Interfejsu Użytkownika (GUI) dla Prologa i innych
 dynamicznie wpisywanych języków. Udostępnia obiektowo zorientowane
 programowanie dla Prologa jak także jako wysoko dostępny przenośny
@@ -148,9 +172,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/pl-%{version}/bin
 %{_libdir}/pl-%{version}/boot*
 %dir %{_libdir}/pl-%{version}/lib
-%{?with_java:%{_libdir}/pl-%{version}/lib/jpl.jar}
 %dir %{_libdir}/pl-%{version}/lib/*-linux
 %attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/*.so*
+%{_libdir}/pl-%{version}/lib/*-linux/*.a
+%exclude %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
+%{_libdir}/pl-%{version}/library
+%exclude %{_libdir}/pl-%{version}/library/jpl.pl
 %{_libdir}/pl-%{version}/include
 %{_libdir}/pl-%{version}/do*
 %{_libdir}/pl-%{version}/swipl
@@ -158,7 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/pl.pc
 %{_mandir}/man?/pl*
 
-%files -n xpce
+%files xpce
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/xpce*
 %dir %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}
@@ -170,3 +197,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
+
+%if %{with java}
+%files jpl
+%defattr(644,root,root,755)
+%{_libdir}/pl-%{version}/lib/jpl.jar
+%attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
+%{_libdir}/pl-%{version}/library/jpl.pl
+%endif
