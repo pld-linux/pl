@@ -21,7 +21,6 @@ Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/devel/src/%{name}-%{version}.tar.gz
 # Source0-md5:	a88409ccbbaccb470a0defb64d8cdfda
 Patch0:		%{name}-clib-configure.patch
-Patch1:		%{name}-jpl-configure.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -89,7 +88,6 @@ Prolog.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
 cd src
