@@ -3,7 +3,7 @@
 # 	- separate prolog packages to rpm subpackages
 #
 # Conditional build:
-%bcond_with	java		# build with java bindings (So far, JPL only works with Sun Java and IBM Java)
+%bcond_without	java		# don't build with java bindings (So far, JPL only works with Sun Java and IBM Java)
 #
 
 %ifnarch %{x8664} i586 i686 pentium3 pentium4 athlon 
@@ -129,7 +129,7 @@ LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr jpl mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
+for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr %{?with_java:jpl} mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
