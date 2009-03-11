@@ -2,6 +2,14 @@
 # TODO
 # 	- separate prolog packages to rpm subpackages
 #
+# Conditional build:
+%bcond_with	java		# build with java bindings (So far, JPL only works with Sun Java and IBM Java)
+#
+
+%ifnarch %{x8664} i586 i686 pentium3 pentium4 athlon 
+%undefine	with_java
+%endif
+
 %define		xpce_version 6.6.64
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
@@ -13,6 +21,7 @@ Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/devel/src/%{name}-%{version}.tar.gz
 # Source0-md5:	a88409ccbbaccb470a0defb64d8cdfda
 Patch0:		%{name}-clib-configure.patch
+Patch1:		%{name}-jpl-configure.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -20,7 +29,7 @@ BuildRequires:	db-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel
 BuildRequires:	gmp-devel
-BuildRequires:	jdk
+%{?with_java:BuildRequires:	java-sun}
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	openssl-devel
@@ -80,7 +89,7 @@ Prolog.
 %prep
 %setup -q
 %patch0 -p1
-#sed -e "s@mkdir@mkdir -p@g" -i packages/xpce/src/Makefile.in
+%patch1 -p1
 
 %build
 cd src
@@ -120,7 +129,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
 
 LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/pl-%{version}/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
-for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr jpl mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
+for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr %{?with_java:jpl} mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} -j1 install -C packages/$i \
 		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
@@ -129,13 +138,9 @@ for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr jpl mp nlp odbc pld
 		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
 done
 
-# why are manpages installed twice?
-#rm -rf $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/man
-
-#mv -f $RPM_BUILD_ROOT%{_mandir}/man3/readline.{3,3pl}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
+
 %files
 %defattr(644,root,root,755)
 %doc README* LSM ChangeLog PORTING
@@ -144,14 +149,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/pl-%{version}
 %attr(755,root,root) %{_libdir}/pl-%{version}/bin
 %{_libdir}/pl-%{version}/boot*
-%{_libdir}/pl-%{version}/lib*
+%dir %{_libdir}/pl-%{version}/lib
+%{?with_java:%{_libdir}/pl-%{version}/lib/jpl.jar}
+%dir %{_libdir}/pl-%{version}/lib/*-linux
+%attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/*.so*
 %{_libdir}/pl-%{version}/include
 %{_libdir}/pl-%{version}/do*
 %{_libdir}/pl-%{version}/swipl
 %{_libdir}/pl-%{version}/*.rc
 %{_pkgconfigdir}/pl.pc
 %{_mandir}/man?/pl*
-#%{_mandir}/man?/readline*
 
 %files -n xpce
 %defattr(644,root,root,755)
@@ -165,4 +172,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
 %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
-#%{_mandir}/man?/xpce*
