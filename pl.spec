@@ -175,9 +175,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/pl-%{version}/lib/*-linux
 %attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/*.so*
 %{_libdir}/pl-%{version}/lib/*-linux/*.a
-%exclude %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
 %{_libdir}/pl-%{version}/library
+%if %{with java}
+%exclude %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
 %exclude %{_libdir}/pl-%{version}/library/jpl.pl
+%endif
 %{_libdir}/pl-%{version}/include
 %{_libdir}/pl-%{version}/do*
 %{_libdir}/pl-%{version}/swipl
