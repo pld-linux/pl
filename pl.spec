@@ -1,6 +1,6 @@
 #
 # TODO
-# 	- separate prolog packages to rpm subpackages
+# 	- maybe separate other prolog packages to rpm subpackages
 #
 # Conditional build:
 %bcond_without	java		# don't build with java bindings (So far, JPL only works with Sun Java and IBM Java)
@@ -15,7 +15,7 @@ Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
 Version:	5.7.7
-Release:	0.2
+Release:	1
 License:	LGPL/GPL
 Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/devel/src/%{name}-%{version}.tar.gz
@@ -69,6 +69,7 @@ readline, GNU Emacsa i X11 przy użyciu XPCE.
 Summary:	Dynamic, bidirectional interface between SWI-Prolog and Java
 Group:		Development/Languages
 Requires:	%{name} = %{version}-%{release}
+Requires:	java-sun
 
 %description jpl
 JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0 or
