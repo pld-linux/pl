@@ -10,7 +10,7 @@
 %undefine	with_java
 %endif
 
-%define		xpce_version 6.6.64
+%define		xpce_version 6.6.66
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
