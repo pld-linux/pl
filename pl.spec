@@ -14,12 +14,12 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	5.8.3
+Version:	5.10.4
 Release:	1
 License:	LGPL/GPL
 Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	faeb7ade8da9832f113e6748ba6cab03
+# Source0-md5:	363433bb2f80a6c2befeaee7768197b4
 Patch0:		%{name}-clib-configure.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
@@ -28,7 +28,7 @@ BuildRequires:	db-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel
 BuildRequires:	gmp-devel
-%{?with_java:BuildRequires:	java-sun}
+%{?with_java:BuildRequires:	jdk}
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	openssl-devel
@@ -155,7 +155,10 @@ LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
 cd packages
 wd=`pwd`
-for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr %{?with_java:jpl} mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
+for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
+		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
+		zlib R protobufs \
+		inclpr ; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
@@ -173,14 +176,15 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -j1 install -C src \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT%{_libdir}/pl-%{version}/doc
+LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
-LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/pl-%{version}/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
-
-for i in xpce/src chr clib clpqr cpp cppproxy db http inclpr %{?with_java:jpl} mp nlp odbc pldoc plunit semweb sgml sgml/RDF ssl table uri zlib; do
+for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
+		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
+		zlib R protobufs \
+		inclpr ; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} -j1 install -C packages/$i \
-		PLBASE=$RPM_BUILD_ROOT%{_libdir}/pl-%{version} \
+		PLBASE=$RPM_BUILD_ROOT%{_libdir}/swipl-%{version} \
 		prefix=$RPM_BUILD_ROOT%{_prefix} \
 		bindir=$RPM_BUILD_ROOT%{_bindir} \
 		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
@@ -191,45 +195,45 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README* LSM ChangeLog PORTING
+%doc README* ReleaseNotes/*
 %doc dotfiles/dot*
-%attr(755,root,root) %{_bindir}/pl*
-%dir %{_libdir}/pl-%{version}
-%attr(755,root,root) %{_libdir}/pl-%{version}/bin
-%{_libdir}/pl-%{version}/boot*
-%dir %{_libdir}/pl-%{version}/lib
-%dir %{_libdir}/pl-%{version}/lib/*-linux
-%attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/*.so*
-%{_libdir}/pl-%{version}/lib/*-linux/*.a
-%{_libdir}/pl-%{version}/library
+%attr(755,root,root) %{_bindir}/swipl*
+%dir %{_libdir}/swipl-%{version}
+%attr(755,root,root) %{_libdir}/swipl-%{version}/bin
+%{_libdir}/swipl-%{version}/boot*
+%dir %{_libdir}/swipl-%{version}/lib
+%dir %{_libdir}/swipl-%{version}/lib/*-linux
+%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/*-linux/*.so*
+%{_libdir}/swipl-%{version}/lib/*-linux/*.a
+%{_libdir}/swipl-%{version}/library
 %if %{with java}
-%exclude %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
-%exclude %{_libdir}/pl-%{version}/library/jpl.pl
+%exclude %{_libdir}/swipl-%{version}/lib/*-linux/libjpl.so
+%exclude %{_libdir}/swipl-%{version}/library/jpl.pl
 %endif
-%{_libdir}/pl-%{version}/include
-%{_libdir}/pl-%{version}/do*
-%{_libdir}/pl-%{version}/swipl
-%{_libdir}/pl-%{version}/*.rc
-%{_pkgconfigdir}/pl.pc
-%{_mandir}/man?/pl*
+%{_libdir}/swipl-%{version}/include
+%{_libdir}/swipl-%{version}/do*
+%{_libdir}/swipl-%{version}/*.rc
+%{_libdir}/swipl-%{version}/swipl.home
+%{_pkgconfigdir}/swipl.pc
+%{_mandir}/man?/swipl*
 
 %files xpce
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/xpce*
-%dir %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}
-%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bin
-%attr(755,root,root) %{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/lib
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/appl-help
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/bitmaps
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/include
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/man
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/pl
-%{_libdir}/%{name}-%{version}/xpce-%{xpce_version}/prolog
+%dir %{_libdir}/swipl-%{version}/xpce-%{xpce_version}
+%{_libdir}/swipl-%{version}/xpce
+%attr(755,root,root) %{_libdir}/swipl-%{version}/xpce-%{xpce_version}/bin
+%attr(755,root,root) %{_libdir}/swipl-%{version}/xpce-%{xpce_version}/lib
+%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/appl-help
+%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/bitmaps
+%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/man
+%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/pl
+%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/prolog
 
 %if %{with java}
 %files jpl
 %defattr(644,root,root,755)
-%{_libdir}/pl-%{version}/lib/jpl.jar
-%attr(755,root,root) %{_libdir}/pl-%{version}/lib/*-linux/libjpl.so
-%{_libdir}/pl-%{version}/library/jpl.pl
+%{_libdir}/swipl-%{version}/lib/jpl.jar
+%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/*-linux/libjpl.so
+%{_libdir}/swipl-%{version}/library/jpl.pl
 %endif
