@@ -15,7 +15,7 @@ Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
 Version:	5.10.4
-Release:	2
+Release:	3
 License:	LGPL/GPL
 Group:		Development/Languages
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
