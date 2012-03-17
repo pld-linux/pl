@@ -10,17 +10,18 @@
 %undefine	with_java
 %endif
 
-%define		xpce_version 6.6.66
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	5.10.4
-Release:	3
-License:	LGPL/GPL
+Version:	6.0.2
+Release:	1
+License:	LGPL v2.1+
 Group:		Development/Languages
+#Source0Download: http://www.swi-prolog.org/download/stable
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	363433bb2f80a6c2befeaee7768197b4
+# Source0-md5:	dcde1c50713317d0f5093dd2dedc1bd0
 Patch0:		%{name}-clib-configure.patch
+Patch1:		%{name}-xpce-install.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -75,22 +76,23 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	java-sun
 
 %description jpl
-JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0 or
-later and Java 2 runtimes (see JPL 3.x Objectives). It offers two APIs:
-  * Java API (Java-calls-Prolog): this interface comprises public Java
-    classes which support:
-       + constructing Java representations of Prolog terms and queries
-       + calling queries within SWI-Prolog engines
-       + retrieving (as Java representations of Prolog terms) any bindings
-         created by a call
-  * Prolog API (Prolog-calls-Java): this interface comprises Prolog library
-    predicates which support:
-       + creating instances (objects) of Java classes (built-in and
-         user-defined)
-       + calling methods of Java objects (and static methods of classes),
-         perhaps returning values or object references
-       + getting and setting the values of fields of Java objects and
-         classes
+JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0
+or later and Java 2 runtimes (see JPL 3.x Objectives). It offers two
+APIs:
+ * Java API (Java-calls-Prolog): this interface comprises public Java
+   classes which support:
+    + constructing Java representations of Prolog terms and queries
+    + calling queries within SWI-Prolog engines
+    + retrieving (as Java representations of Prolog terms) any
+      bindings created by a call
+ * Prolog API (Prolog-calls-Java): this interface comprises Prolog
+   library predicates which support:
+    + creating instances (objects) of Java classes (built-in and
+      user-defined)
+    + calling methods of Java objects (and static methods of classes),
+      perhaps returning values or object references
+    + getting and setting the values of fields of Java objects and
+      classes
 
 Calls to the two APIs can be nested, e.g. Java code can call Prolog
 predicates which call Java methods which call Prolog predicates etc.
@@ -99,19 +101,19 @@ predicates which call Java methods which call Prolog predicates etc.
 JPL 3.x to dynamiczny, dwukierunkowy interfejs pomiędzy SWI-Prologiem
 5.2.0 i późniejszymi a środowiskami uruchomieniowymi Javy 2 (więcej w
 dokumencie JPL 3.x Objectives). Oferuje dwa API:
-  - API Javy (wywołania Prologu z Javy) - ten interfejs obejmuje klasy
-    publiczne Javy obsługujące:
-    - tworzenie reprezentacji wyrażeń i zapytań Prologu w Javie
-    - wywoływanie zapytań wewnątrz silników SWI-Prologu
-    - odtwarzanie (jako reprezentacji wyrażeń Prologu w Javie)
-      wszelkich dowiązań utworzonych przez wywołanie
-  - API Prologu (wywołania Javy z Prologu) - ten interfejs obejmuje
-    predykaty biblioteki Prologu obsługującą:
-    - tworzenie instancji (obiektów) klas Javy (wbudowanych i
-      zdefiniowanych przez użytkownika)
-    - wywołania metod obiektów (i statycznych metod klas) Javy, także
-      zwracających wartości lub referencje do obiektów
-    - pobieranie i ustawianie wartości pól obiektów i klas Javy
+ - API Javy (wywołania Prologu z Javy) - ten interfejs obejmuje klasy
+   publiczne Javy obsługujące:
+   - tworzenie reprezentacji wyrażeń i zapytań Prologu w Javie
+   - wywoływanie zapytań wewnątrz silników SWI-Prologu
+   - odtwarzanie (jako reprezentacji wyrażeń Prologu w Javie)
+     wszelkich dowiązań utworzonych przez wywołanie
+ - API Prologu (wywołania Javy z Prologu) - ten interfejs obejmuje
+   predykaty biblioteki Prologu obsługującą:
+   - tworzenie instancji (obiektów) klas Javy (wbudowanych i
+     zdefiniowanych przez użytkownika)
+   - wywołania metod obiektów (i statycznych metod klas) Javy, także
+     zwracających wartości lub referencje do obiektów
+   - pobieranie i ustawianie wartości pól obiektów i klas Javy
 
 Wywołania obu API mogą być zagnieżdżane, np. kod w Javie może wywołać
 predykaty Prologu wywołujące metody Javy, które wywołują predykaty
@@ -140,6 +142,7 @@ Prolog.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 cd src
@@ -157,15 +160,16 @@ LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 
 cd packages
 wd=`pwd`
+# see packages/configure for default packages list and their order
 for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
-		zlib R protobufs \
+		zlib R protobufs PDT utf8proc \
 		inclpr ; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
 	%{__aclocal}
 	%{__autoconf}
-	%{__autoheader} || :
+	grep -q AC_CONFIG_HEADER configure.in && %{__autoheader}
 	%configure
 	%{__make}
 	cd $wd
@@ -192,15 +196,20 @@ for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 		mandir=$RPM_BUILD_ROOT%{_mandir}/man1
 done
 
+# packaged as doc
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/{customize,xpce/{COPYING,README}}
+# no need to package
+%{__rm} -r $RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/demo
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README* ReleaseNotes/*
-%doc dotfiles/dot*
+%doc README ReleaseNotes/relnotes-* customize
 %attr(755,root,root) %{_bindir}/swipl*
 %dir %{_libdir}/swipl-%{version}
+%{_libdir}/swipl-%{version}/Makefile
 %attr(755,root,root) %{_libdir}/swipl-%{version}/bin
 %{_libdir}/swipl-%{version}/boot*
 %dir %{_libdir}/swipl-%{version}/lib
@@ -217,25 +226,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/swipl-%{version}/*.rc
 %{_libdir}/swipl-%{version}/swipl.home
 %{_pkgconfigdir}/swipl.pc
-%{_mandir}/man?/swipl*
+%{_mandir}/man1/swipl*.1*
 
 %files xpce
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/xpce*
-%dir %{_libdir}/swipl-%{version}/xpce-%{xpce_version}
-%{_libdir}/swipl-%{version}/xpce
-%attr(755,root,root) %{_libdir}/swipl-%{version}/xpce-%{xpce_version}/bin
-%attr(755,root,root) %{_libdir}/swipl-%{version}/xpce-%{xpce_version}/lib
-%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/appl-help
-%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/bitmaps
-%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/man
-%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/pl
-%{_libdir}/swipl-%{version}/xpce-%{xpce_version}/prolog
+%doc packages/xpce/{EXTENDING,INFO,README,README-4.8,README.CXX,README.alpha,README.customise}
+%attr(755,root,root) %{_bindir}/xpce-client
+%dir %{_libdir}/swipl-%{version}/xpce
+%{_libdir}/swipl-%{version}/xpce/Defaults*
+%attr(755,root,root) %{_libdir}/swipl-%{version}/xpce/bin
+%{_libdir}/swipl-%{version}/xpce/appl-help
+%{_libdir}/swipl-%{version}/xpce/bitmaps
+%{_libdir}/swipl-%{version}/xpce/man
+%{_libdir}/swipl-%{version}/xpce/pl
+%{_libdir}/swipl-%{version}/xpce/prolog
 
 %if %{with java}
 %files jpl
 %defattr(644,root,root,755)
-%{_libdir}/swipl-%{version}/lib/jpl.jar
 %attr(755,root,root) %{_libdir}/swipl-%{version}/lib/*-linux/libjpl.so
+%{_libdir}/swipl-%{version}/lib/jpl.jar
 %{_libdir}/swipl-%{version}/library/jpl.pl
 %endif
