@@ -13,22 +13,22 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	6.2.3
+Version:	6.2.4
 Release:	1
 License:	LGPL v2.1+
 Group:		Development/Languages
 #Source0Download: http://www.swi-prolog.org/download/stable
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	d1f9dcdab8e16ea58b1a3b7a5a824159
+# Source0-md5:	0764f857e9f58d1c86fe60fca3a7992b
 Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
 URL:		http://www.swi-prolog.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	db-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel
-BuildRequires:	gmp-devel
+BuildRequires:	gmp-devel >= 4.2.0
 %{?with_java:BuildRequires:	jdk}
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
@@ -49,6 +49,7 @@ BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	zlib-devel
+Requires:	gmp >= 4.2.0
 Obsoletes:	swi-pl
 Obsoletes:	swi-prolog
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
