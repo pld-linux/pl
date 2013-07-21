@@ -22,6 +22,7 @@ Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
 # Source0-md5:	1fe29778bef25bff8116745e56ec3b28
 Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
+Patch2:		%{name}-format.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -144,6 +145,7 @@ Prolog.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cd src
@@ -158,6 +160,7 @@ cd ..
 # the packages are written in Prolog itself
 PATH="$(pwd)/src:$PATH"; export PATH
 LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
+export CLASSPATH=.
 
 cd packages
 wd=`pwd`
@@ -171,7 +174,10 @@ for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 	%{__aclocal}
 	%{__autoconf}
 	grep -q AC_CONFIG_HEADER configure.in && %{__autoheader}
-	%configure
+	# ac_cv_prog_uudecode_base64=no is a hack to compile Test.class instead of
+	# using included one which fails with Sun/Oracle JDK 1.6 [needed for jpl]
+	%configure \
+		ac_cv_prog_uudecode_base64=no
 	%{__make}
 	cd $wd
 done

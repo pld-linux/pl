@@ -1,0 +1,11 @@
+--- pl-6.4.0/packages/xpce/src/ker/goodies.c.orig	2013-07-17 14:55:08.000000000 +0200
++++ pl-6.4.0/packages/xpce/src/ker/goodies.c	2013-07-21 14:18:44.557235666 +0200
+@@ -845,7 +845,7 @@
+   ar = vsscanf(str, fmt, (va_list) ptrs);
+ #else
+   switch(argn)
+-  { case 0:	ar = sscanf(str, fmt); break;
++  { case 0:	ar = sscanf(str, fmt, NULL); break;
+     case 1:	ar = sscanf(str, fmt, ptrs[0]); break;
+     case 2:	ar = sscanf(str, fmt, ptrs[0], ptrs[1]); break;
+     case 3:	ar = sscanf(str, fmt, ptrs[0], ptrs[1], ptrs[2]);
