@@ -3,7 +3,8 @@
 # 	- maybe separate other prolog packages to rpm subpackages
 #
 # Conditional build:
-%bcond_without	java		# don't build with java bindings (So far, JPL only works with Sun Java and IBM Java)
+%bcond_without	java		# Java bindings (so far, JPL only works with Sun Java and IBM Java)
+%bcond_without	tests		# make check
 #
 
 %ifnarch %{x8664} i586 i686 pentium3 pentium4 athlon 
@@ -13,13 +14,13 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	6.4.1
+Version:	6.6.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Development/Languages
 #Source0Download: http://www.swi-prolog.org/download/stable
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	e6b26e08ab1d12cfedc8729e3dc33143
+# Source0-md5:	75866dbdf361d883b3e441ccd00effda
 Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
 Patch2:		%{name}-format.patch
@@ -154,7 +155,6 @@ cp -f /usr/share/automake/config.sub .
 %{__autoconf}
 %configure
 %{__make}
-%{__make} check
 cd ..
 
 # the packages are written in Prolog itself
@@ -182,6 +182,8 @@ for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 	cd $wd
 done
 cd ..
+
+%{?with_tests:%{__make} -C src check}
 
 %install
 rm -rf $RPM_BUILD_ROOT
