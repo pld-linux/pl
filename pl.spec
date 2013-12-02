@@ -1,15 +1,20 @@
 #
 # TODO
-# 	- maybe separate other prolog packages to rpm subpackages
+#	- maybe separate other prolog packages to rpm subpackages
 #
 # Conditional build:
 %bcond_without	java		# Java bindings (so far, JPL only works with Sun Java and IBM Java)
 %bcond_without	tests		# make check
 #
 
-%ifnarch %{x8664} i586 i686 pentium3 pentium4 athlon 
+%ifnarch %{x8664} i586 i686 pentium3 pentium4 athlon
 %undefine	with_java
 %endif
+
+# packages use SWI-Prolog own linker which doesn't understand -gdwarf* and
+# some -march= options passed to it by gcc
+# No poin in building debug packages without debug info
+%define		_enable_debug_packages	0
 
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
@@ -149,6 +154,11 @@ Prolog.
 %patch2 -p1
 
 %build
+# packages use SWI-Prolog own linker which doesn't understand -gdwarf* and
+# some -march= options passed to it by gcc
+CFLAGS=$(echo %{rpmcflags} | sed 's|-march=[^ ]*||')
+export CFLAGS
+
 cd src
 cp -f /usr/share/automake/config.sub .
 %{__aclocal}
@@ -161,12 +171,6 @@ cd ..
 PATH="$(pwd)/src:$PATH"; export PATH
 LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 export CLASSPATH=.
-
-# packages use SWI-Prolog own linker which doesn't understand -gdwarf* and
-# some -march= options passed to it by gcc
-%undefine	debuginfocflags
-CFLAGS=$(echo %{rpmcflags} | sed 's|-march=[^ ]*||')
-export CFLAGS
 
 cd packages
 wd=`pwd`
