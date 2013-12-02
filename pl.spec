@@ -162,6 +162,12 @@ PATH="$(pwd)/src:$PATH"; export PATH
 LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
 export CLASSPATH=.
 
+# packages use SWI-Prolog own linker which doesn't understand -gdwarf* and
+# some -march= options passed to it by gcc
+%undefine	debuginfocflags
+CFLAGS=$(echo %{rpmcflags} | sed 's|-march=[^ ]*||')
+export CFLAGS
+
 cd packages
 wd=`pwd`
 # see packages/configure for default packages list and their order
