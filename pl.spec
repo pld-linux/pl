@@ -81,7 +81,7 @@ Summary:	Dynamic, bidirectional interface between SWI-Prolog and Java
 Summary(pl.UTF-8):	Dynamiczny, dwukierunkowy interfejs pomiędzy SWI-Prologiem a Javą
 Group:		Development/Languages
 Requires:	%{name} = %{version}-%{release}
-Requires:	java-sun
+Requires:	jdk
 
 %description jpl
 JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0
@@ -152,6 +152,8 @@ Prolog.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+
+%{__mv} src/Tests/core/test_d_break.pl{,disabled}
 
 %build
 # packages use SWI-Prolog own linker which doesn't understand -gdwarf* and
