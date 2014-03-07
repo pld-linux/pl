@@ -1,0 +1,12 @@
+--- pl-6.6.2/src/os/pl-rl.c.orig	2014-03-04 11:37:29.000000000 +0100
++++ pl-6.6.2/src/os/pl-rl.c	2014-03-07 19:54:08.411775445 +0100
+@@ -94,9 +94,6 @@
+ #endif
+ 					/* missing prototypes in older */
+ 					/* readline.h versions */
+-extern int rl_begin_undo_group(void);	/* delete when conflict arrises! */
+-extern int rl_end_undo_group(void);
+-extern Function *rl_event_hook;
+ #ifndef HAVE_RL_FILENAME_COMPLETION_FUNCTION
+ #define rl_filename_completion_function filename_completion_function
+ extern char *filename_completion_function(const char *, int);
