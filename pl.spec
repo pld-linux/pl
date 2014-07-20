@@ -19,17 +19,16 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	6.6.2
+Version:	6.6.6
 Release:	1
 License:	LGPL v2.1+
 Group:		Development/Languages
 #Source0Download: http://www.swi-prolog.org/download/stable
 Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	c59d5a614ec1c063d64c6bd31d3e7e23
+# Source0-md5:	b1f8c8504880c427016af22366970156
 Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
 Patch2:		%{name}-format.patch
-Patch3:		%{name}-readline.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -153,7 +152,6 @@ Prolog.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %{__mv} src/Tests/core/test_d_break.pl{,disabled}
 
