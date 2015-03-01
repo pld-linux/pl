@@ -165,13 +165,14 @@ cd src
 cp -f /usr/share/automake/config.sub .
 %{__aclocal}
 %{__autoconf}
-%configure
+%configure \
+	PLARCH=%{_target_platform}
 %{__make}
 cd ..
 
 # the packages are written in Prolog itself
 PATH="$(pwd)/src:$PATH"; export PATH
-LD_LIBRARY_PATH="$(pwd)/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
+LD_LIBRARY_PATH="$(pwd)/lib/%{_target_platform}"; export LD_LIBRARY_PATH
 export CLASSPATH=.
 
 cd packages
@@ -203,7 +204,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} -j1 install -C src \
 	DESTDIR=$RPM_BUILD_ROOT
 
-LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/lib/%{_target_cpu}-linux"; export LD_LIBRARY_PATH
+LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/lib/%{_target_platform}"; export LD_LIBRARY_PATH
 
 for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
@@ -234,12 +235,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/swipl-%{version}/bin
 %{_libdir}/swipl-%{version}/boot*
 %dir %{_libdir}/swipl-%{version}/lib
-%dir %{_libdir}/swipl-%{version}/lib/*-linux
-%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/*-linux/*.so*
-%{_libdir}/swipl-%{version}/lib/*-linux/*.a
+%dir %{_libdir}/swipl-%{version}/lib/%{_target_platform}
+%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/%{_target_platform}/*.so*
+%{_libdir}/swipl-%{version}/lib/%{_target_platform}/*.a
 %{_libdir}/swipl-%{version}/library
 %if %{with java}
-%exclude %{_libdir}/swipl-%{version}/lib/*-linux/libjpl.so
+%exclude %{_libdir}/swipl-%{version}/lib/%{_target_platform}/libjpl.so
 %exclude %{_libdir}/swipl-%{version}/library/jpl.pl
 %endif
 %{_libdir}/swipl-%{version}/include
@@ -265,7 +266,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with java}
 %files jpl
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/*-linux/libjpl.so
+%attr(755,root,root) %{_libdir}/swipl-%{version}/lib/%{_target_platform}/libjpl.so
 %{_libdir}/swipl-%{version}/lib/jpl.jar
 %{_libdir}/swipl-%{version}/library/jpl.pl
 %endif
