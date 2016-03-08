@@ -19,13 +19,13 @@
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
-Version:	6.6.6
-Release:	3
+Version:	7.2.3
+Release:	1
 License:	LGPL v2.1+
 Group:		Development/Languages
 #Source0Download: http://www.swi-prolog.org/download/stable
-Source0:	http://www.swi-prolog.org/download/stable/src/%{name}-%{version}.tar.gz
-# Source0-md5:	b1f8c8504880c427016af22366970156
+Source0:	http://www.swi-prolog.org/download/stable/src/swi%{name}-%{version}.tar.gz
+# Source0-md5:	67c182f18310f115b49f1e2195499e0c
 Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
 Patch2:		%{name}-format.patch
@@ -148,7 +148,7 @@ zestaw GUI dla (SWI-)Prologu. Dostępne także dla Quintus i SICStus
 Prolog.
 
 %prep
-%setup -q
+%setup -q -n swi%{name}-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -180,7 +180,7 @@ wd=`pwd`
 # see packages/configure for default packages list and their order
 for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
-		zlib R protobufs PDT utf8proc \
+		zlib protobufs PDT utf8proc archive pengines cql \
 		inclpr ; do
 	cd $i
 	cp -f /usr/share/automake/config.sub .
@@ -208,7 +208,7 @@ LD_LIBRARY_PATH="$RPM_BUILD_ROOT%{_libdir}/swipl-%{version}/lib/%{_target_platfo
 
 for i in clib cpp odbc table xpce/src sgml RDF semweb http chr \
 		clpqr nlp ssl tipc pldoc plunit %{?with_java:jpl} \
-		zlib R protobufs \
+		zlib protobufs PDT utf8proc archive pengines cql \
 		inclpr ; do
 	PATH=$RPM_BUILD_ROOT%{_bindir}:$PATH \
 	%{__make} -j1 install -C packages/$i \
@@ -252,7 +252,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files xpce
 %defattr(644,root,root,755)
-%doc packages/xpce/{EXTENDING,INFO,README,README-4.8,README.CXX,README.alpha,README.customise}
+%doc packages/xpce/{EXTENDING,INFO,README,README.CXX,README.customise}
 %attr(755,root,root) %{_bindir}/xpce-client
 %dir %{_libdir}/swipl-%{version}/xpce
 %{_libdir}/swipl-%{version}/xpce/Defaults*
