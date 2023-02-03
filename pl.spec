@@ -167,7 +167,10 @@ Prolog.
 CFLAGS=$(echo %{rpmcflags} | sed 's|-march=[^ ]*||')
 export CFLAGS
 
-%{?with_java:export JAVA_HOME="%{java_home}"}
+%if %{with java}
+export JAVA_HOME="%{java_home}"
+export JAVAPREFIX="%{java_home}/bin"
+%endif
 
 cd src
 cp -f /usr/share/automake/config.sub .
