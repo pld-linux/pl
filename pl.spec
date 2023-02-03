@@ -16,6 +16,8 @@
 # No poin in building debug packages without debug info
 %define		_enable_debug_packages	0
 
+%define		use_jdk			openjdk8
+
 Summary:	SWI Prolog Language
 Summary(pl.UTF-8):	Język SWI Prolog
 Name:		pl
@@ -38,7 +40,7 @@ BuildRequires:	db-devel
 BuildRequires:	fontconfig-devel
 BuildRequires:	freetype-devel
 BuildRequires:	gmp-devel >= 4.2.0
-%{?with_java:BuildRequires:	jdk}
+%{?with_java:%buildrequires_jdk}
 BuildRequires:	libjpeg-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	openssl-devel
@@ -83,7 +85,7 @@ Summary:	Dynamic, bidirectional interface between SWI-Prolog and Java
 Summary(pl.UTF-8):	Dynamiczny, dwukierunkowy interfejs pomiędzy SWI-Prologiem a Javą
 Group:		Development/Languages
 Requires:	%{name} = %{version}-%{release}
-Requires:	jdk
+Requires:	jdk >= 8
 
 %description jpl
 JPL 3.x is a dynamic, bidirectional interface between SWI-Prolog 5.2.0
@@ -164,6 +166,8 @@ Prolog.
 # some -march= options passed to it by gcc
 CFLAGS=$(echo %{rpmcflags} | sed 's|-march=[^ ]*||')
 export CFLAGS
+
+%{?with_java:export JAVA_HOME="%{java_home}"}
 
 cd src
 cp -f /usr/share/automake/config.sub .
