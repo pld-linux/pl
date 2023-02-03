@@ -30,6 +30,7 @@ Patch0:		%{name}-clib-configure.patch
 Patch1:		%{name}-xpce-install.patch
 Patch2:		%{name}-format.patch
 Patch3:		%{name}-jni.patch
+Patch4:         build.patch
 URL:		http://www.swi-prolog.org/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -154,6 +155,7 @@ Prolog.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__mv} src/Tests/core/test_d_break.pl{,disabled}
 

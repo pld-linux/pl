@@ -1,0 +1,11 @@
+--- swipl-7.2.3/packages/jpl/configure.in~	2015-06-18 13:26:49.000000000 +0200
++++ swipl-7.2.3/packages/jpl/configure.in	2023-02-03 08:02:18.019832229 +0100
+@@ -58,7 +58,7 @@ dnl ====================================
+ AC_CANONICAL_HOST			dnl needed to get $host_os
+ 
+ if test "x$JAVACFLAGS" = x; then
+-  JAVACFLAGS="-target 5 -source 5"
++  JAVACFLAGS="-target 6 -source 6"
+ fi
+ 
+ m4_include([ac/ac_prog_java.m4])
